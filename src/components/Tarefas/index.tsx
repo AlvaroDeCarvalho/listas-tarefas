@@ -1,15 +1,33 @@
-import { useState } from 'react'
-import * as S from './styles'
-import * as enums from '../../uteis/enums/Tarefa'
-type Props = {
-  titulo: string
-  prioridade: enums.Prioridade
-  status: enums.Status
-  descricao: string
-}
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
-const Tarefa = ({ titulo, prioridade, status, descricao }: Props) => {
+import * as S from './styles'
+
+import { editar, remover } from '../../store/reducers/Tarefas'
+import TarefaClass from '../../models/Tarefa'
+type Props = TarefaClass
+
+const Tarefa = ({
+  titulo,
+  prioridade,
+  status,
+  descricao: descricaoOriginal,
+  id
+}: Props) => {
   const [estaEditando, setEstaEditando] = useState(false)
+  const dispatch = useDispatch()
+  const [descricao, setDescricao] = useState('')
+  useEffect(() => {
+    if (descricaoOriginal.length > 0) {
+      setDescricao(descricaoOriginal)
+    }
+  }, [descricaoOriginal])
+
+  function cancelarEdicao() {
+    setEstaEditando(false)
+    setDescricao(descricaoOriginal)
+  }
+
   return (
     <S.Card>
       <S.Titulo>{titulo}</S.Titulo>
@@ -19,19 +37,40 @@ const Tarefa = ({ titulo, prioridade, status, descricao }: Props) => {
       <S.Tag parametro="status" status={status}>
         {status}
       </S.Tag>
-      <S.Descricao value={descricao} />
+      <S.Descricao
+        disabled={!estaEditando}
+        value={descricao}
+        onChange={(e) => setDescricao(e.target.value)}
+      />
       <S.BarraAcoes>
         {estaEditando ? (
           <>
-            <S.BotaoSalvar>Salvar</S.BotaoSalvar>
-            <S.BotaoCancelar onClick={() => setEstaEditando(false)}>
+            <S.BotaoSalvar
+              onClick={() => {
+                dispatch(
+                  editar({
+                    titulo,
+                    prioridade,
+                    status,
+                    descricao,
+                    id
+                  })
+                )
+                setEstaEditando(false)
+              }}
+            >
+              Salvar
+            </S.BotaoSalvar>
+            <S.BotaoCancelar onClick={() => cancelarEdicao()}>
               Cancelar
             </S.BotaoCancelar>
           </>
         ) : (
           <>
             <S.Botao onClick={() => setEstaEditando(true)}>Editar</S.Botao>
-            <S.BotaoCancelar>Remover</S.BotaoCancelar>
+            <S.BotaoCancelar onClick={() => dispatch(remover(id))}>
+              Remover
+            </S.BotaoCancelar>
           </>
         )}
       </S.BarraAcoes>

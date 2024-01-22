@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Props } from '.'
 
+//o omit remove um atributo da propiedade, ou seja, o PropsSemLegendaEcontador é a propia pros mas removendo o atribuda da leganda e do contador
 type PropsSemLegendaEContador = Omit<Props, 'contador' | 'legenda'>
 
 export const Card = styled.div<PropsSemLegendaEContador>`
