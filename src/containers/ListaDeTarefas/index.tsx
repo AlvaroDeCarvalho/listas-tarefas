@@ -7,13 +7,22 @@ import TarefaLocal from '../../models/Tarefa'
 
 const ListaDeTarefas = () => {
   const { itens } = useSelector((state: RootReducer) => state.tarefas)
+  const { termo, criterio } = useSelector((state: RootReducer) => state.filtro)
+
+  const filtraTarefas = () => {
+    return itens.filter(
+      (item) =>
+        item.titulo.toLocaleLowerCase().search(termo.toLocaleLowerCase()) >= 0
+    )
+  }
   return (
     <S.Container>
       <p>
-        2 tarefas marcadas como: &quot;categoria&ldquo; e &quot;termo&ldquo;
+        {filtraTarefas().length} tarefas marcadas como: &quot;{criterio}&ldquo;
+        e &quot;{termo}&ldquo;
       </p>
       <ul>
-        {itens.map((t: TarefaLocal) => (
+        {filtraTarefas().map((t: TarefaLocal) => (
           <li key={t.titulo}>
             <Tarefa
               id={t.id}
