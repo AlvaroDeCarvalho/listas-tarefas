@@ -1,10 +1,16 @@
 import styled from 'styled-components'
-import { Props } from '.'
 
 //o omit remove um atributo da propiedade, ou seja, o PropsSemLegendaEcontador é a propia pros mas removendo o atribuda da leganda e do contador
-type PropsSemLegendaEContador = Omit<Props, 'contador' | 'legenda'>
+/* type PropsSemLegendaEContador = Omit<
+  Props,
+  'contador' | 'legenda' | 'criterio' | 'valor'
+> */
 
-export const Card = styled.div<PropsSemLegendaEContador>`
+type Props = {
+  ativo: boolean
+}
+
+export const Card = styled.div<Props>`
   padding: 8px;
   border: 1px solid ${(props) => (props.ativo ? '#1e90ff' : '#a1a1a1')};
   background-color: ${(props) => (props.ativo ? '#fff' : '#fcfcfc')};

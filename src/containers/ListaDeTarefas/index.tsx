@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
 
@@ -7,13 +8,32 @@ import TarefaLocal from '../../models/Tarefa'
 
 const ListaDeTarefas = () => {
   const { itens } = useSelector((state: RootReducer) => state.tarefas)
-  const { termo, criterio } = useSelector((state: RootReducer) => state.filtro)
+
+  const { termo, criterio, valor } = useSelector(
+    (state: RootReducer) => state.filtro
+  )
 
   const filtraTarefas = () => {
-    return itens.filter(
-      (item) =>
-        item.titulo.toLocaleLowerCase().search(termo.toLocaleLowerCase()) >= 0
-    )
+    let tarefasFiltradas = itens
+    if (termo !== undefined) {
+      tarefasFiltradas = tarefasFiltradas.filter(
+        (item) =>
+          item.titulo.toLocaleLowerCase().search(termo.toLocaleLowerCase()) >= 0
+      )
+
+      if (criterio === 'prioridade') {
+        tarefasFiltradas = tarefasFiltradas.filter(
+          (item) => item.prioridade === valor
+        )
+      } else if (criterio === 'status') {
+        tarefasFiltradas = tarefasFiltradas.filter(
+          (item) => item.status === valor
+        )
+      }
+      return tarefasFiltradas
+    } else {
+      return itens
+    }
   }
   return (
     <S.Container>
