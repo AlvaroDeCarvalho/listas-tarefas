@@ -35,14 +35,27 @@ const ListaDeTarefas = () => {
       return itens
     }
   }
+
+  const exbieTarefasFiltradas = (quantidade: number) => {
+    let mensagem = ''
+    const comp =
+      termo !== undefined && termo.length > 0 ? ` e com titulo: "${termo}"` : ''
+    if (criterio === 'todas') {
+      mensagem = `${quantidade} tarefas encontadas como: todas ${comp}`
+    } else {
+      mensagem = `${quantidade} tarefas encontradas como "${criterio} = ${valor}"`
+    }
+
+    return mensagem
+  }
+
+  const tarefas = filtraTarefas()
+  const mensagem = exbieTarefasFiltradas(tarefas.length)
   return (
     <S.Container>
-      <p>
-        {filtraTarefas().length} tarefas marcadas como: &quot;{criterio}&ldquo;
-        e &quot;{termo}&ldquo;
-      </p>
+      <S.Resultado>{mensagem}</S.Resultado>
       <ul>
-        {filtraTarefas().map((t: TarefaLocal) => (
+        {tarefas.map((t: TarefaLocal) => (
           <li key={t.titulo}>
             <Tarefa
               id={t.id}
