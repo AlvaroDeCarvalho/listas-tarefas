@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
 
 import Tarefa from '../../components/Tarefas'
-import * as S from './style'
+import * as S from '../../styles/index'
 import TarefaLocal from '../../models/Tarefa'
 
 const ListaDeTarefas = () => {
@@ -52,8 +52,8 @@ const ListaDeTarefas = () => {
   const tarefas = filtraTarefas()
   const mensagem = exbieTarefasFiltradas(tarefas.length)
   return (
-    <S.Container>
-      <S.Resultado>{mensagem}</S.Resultado>
+    <S.MainContainer>
+      <S.Titulo>{mensagem}</S.Titulo>
       <ul>
         {tarefas.map((t: TarefaLocal) => (
           <li key={t.titulo}>
@@ -67,7 +67,7 @@ const ListaDeTarefas = () => {
           </li>
         ))}
       </ul>
-    </S.Container>
+    </S.MainContainer>
   )
 }
 export default ListaDeTarefas

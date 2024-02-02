@@ -1,3 +1,4 @@
-const Cadastro = () => <div>Ola meu povo, o cuscuz esta pronto.</div>
+import Formulario from '../../containers/Formulario'
 
+const Cadastro = () => <Formulario />
 export default Cadastro
