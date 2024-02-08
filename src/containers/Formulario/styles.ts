@@ -1,14 +1,27 @@
 import styled from 'styled-components'
 
-export const Container = styled.main`
-  padding: 0 40px;
-  height: 100vh;
-  overflow-y: scroll;
-`
-export const Resultado = styled.p`
-  display: block;
-  margin: 40px;
-  margin-bottom: 40px;
-  font-size: 18px;
+export const Form = styled.form`
+  max-width: 567px;
+  width: 100%;
+  font-size: 14px;
   font-weight: bold;
+  color: #666666;
+  textarea {
+    resize: none;
+    margin: 16px 0;
+  }
+`
+export const Opecoes = styled.div`
+  margin-bottom: 16px;
+
+  p {
+    margin: 6px;
+  }
+  label {
+    margin-left: 6px;
+  }
+`
+export const Opecao = styled.div`
+  display: inline;
+  text-transform: capitalize;
 `

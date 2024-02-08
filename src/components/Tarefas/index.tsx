@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
+import { BotaoSalvar } from '../../styles'
 import * as S from './styles'
 
 import { editar, remover } from '../../store/reducers/Tarefas'
@@ -30,7 +31,10 @@ const Tarefa = ({
 
   return (
     <S.Card>
-      <S.Titulo>{titulo}</S.Titulo>
+      <label htmlFor={titulo}>
+        <input type="checkbox" id={titulo} />
+        <S.Titulo>{titulo}</S.Titulo>
+      </label>
       <S.Tag parametro="prioridade" prioridade={prioridade}>
         {prioridade}
       </S.Tag>
@@ -45,7 +49,7 @@ const Tarefa = ({
       <S.BarraAcoes>
         {estaEditando ? (
           <>
-            <S.BotaoSalvar
+            <BotaoSalvar
               onClick={() => {
                 dispatch(
                   editar({
@@ -60,7 +64,7 @@ const Tarefa = ({
               }}
             >
               Salvar
-            </S.BotaoSalvar>
+            </BotaoSalvar>
             <S.BotaoCancelar onClick={() => cancelarEdicao()}>
               Cancelar
             </S.BotaoCancelar>

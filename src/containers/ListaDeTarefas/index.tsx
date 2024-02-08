@@ -53,7 +53,7 @@ const ListaDeTarefas = () => {
   const mensagem = exbieTarefasFiltradas(tarefas.length)
   return (
     <S.MainContainer>
-      <S.Titulo>{mensagem}</S.Titulo>
+      <S.Titulo as="p">{mensagem}</S.Titulo>
       <ul>
         {tarefas.map((t: TarefaLocal) => (
           <li key={t.titulo}>
