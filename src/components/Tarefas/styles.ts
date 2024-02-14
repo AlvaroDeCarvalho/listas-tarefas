@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import variaveis from '../../styles/variaveis'
 import * as enums from '../../uteis/enums/Tarefa'
-
 type TagProps = {
   prioridade?: enums.Prioridade
   status?: enums.Status
@@ -91,20 +90,4 @@ export const BarraAcoes = styled.div`
   padding-top: 16px;
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 0px 0px 16px 16px;
-`
-
-export const Botao = styled.button`
-  background-color: #2f3640;
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
-  border-radius: 8px;
-  margin-right: 8px;
-`
-
-export const BotaoCancelar = styled(Botao)`
-  background-color: ${variaveis.vermelho};
 `

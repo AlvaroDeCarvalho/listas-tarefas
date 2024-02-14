@@ -6,7 +6,6 @@ import { Form, Opecoes, Opecao } from './styles'
 import * as S from '../../styles'
 
 import * as enums from '../../uteis/enums/Tarefa'
-import Tarefa from '../../models/Tarefa'
 import { cadastrar } from '../../store/reducers/Tarefas'
 
 const Formulario = () => {
@@ -18,14 +17,15 @@ const Formulario = () => {
 
   const cadastrarTarefa = (evento: FormEvent) => {
     evento.preventDefault()
-    const tarefaParaAdd = new Tarefa(
-      titulo,
-      prioridade,
-      enums.Status.PENDENTE,
-      descricao,
-      9
+
+    dispatch(
+      cadastrar({
+        titulo,
+        prioridade,
+        descricao,
+        status: enums.Status.PENDENTE
+      })
     )
-    dispatch(cadastrar(tarefaParaAdd))
     navigate('/')
   }
 
@@ -47,21 +47,23 @@ const Formulario = () => {
         />
         <Opecoes>
           <p>Prioridade</p>
-          {Object.values(enums.Prioridade).map((p) => (
-            <Opecao key={p}>
-              <input
-                onChange={(e) =>
-                  setPrioridade(e.target.value as enums.Prioridade)
-                }
-                value={p}
-                name="prioridade"
-                type="radio"
-                id={p}
-                defaultChecked={prioridade === enums.Prioridade.NORMAL}
-              />
-              <label htmlFor={p}>{p} </label>
-            </Opecao>
-          ))}
+          {Object.values(enums.Prioridade).map((p) => {
+            return (
+              <Opecao key={p}>
+                <input
+                  onChange={(e) =>
+                    setPrioridade(e.target.value as enums.Prioridade)
+                  }
+                  value={p}
+                  name="prioridade"
+                  type="radio"
+                  id={p}
+                  defaultChecked={p === enums.Prioridade.NORMAL}
+                />
+                <label htmlFor={p}>{p} </label>
+              </Opecao>
+            )
+          })}
         </Opecoes>
         <S.BotaoSalvar>submit</S.BotaoSalvar>
       </Form>

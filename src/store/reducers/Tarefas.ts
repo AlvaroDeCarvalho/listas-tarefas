@@ -51,7 +51,7 @@ const tarefasSlice = createSlice({
         state.itens[indexDoItem] = action.payload
       }
     },
-    cadastrar: (state, action: PayloadAction<Tarefa>) => {
+    cadastrar: (state, action: PayloadAction<Omit<Tarefa, 'id'>>) => {
       const TarefaExiste = state.itens.find(
         (tarefa) =>
           tarefa.titulo.toLowerCase() === action.payload.titulo.toLowerCase()
@@ -59,7 +59,16 @@ const tarefasSlice = createSlice({
       if (TarefaExiste) {
         alert('Ja eixste uma tarefa com esse nome')
       } else {
-        state.itens.push(action.payload)
+        const ultimaTarefa = state.itens[state.itens.length - 1]
+
+        const novaTarefa = {
+          ...action.payload,
+          /* aqui ele esta pegando o ultimo item do array, selecionando o id deste e item e incrementando
+          mais 1 para na hora do push. e o conteudo do novo item sera uma copia de tudo que esta
+          no nosso payload */
+          id: ultimaTarefa ? ultimaTarefa.id + 1 : 1
+        }
+        state.itens.push(novaTarefa)
       }
     },
     alteraStatus: (
@@ -78,5 +87,5 @@ const tarefasSlice = createSlice({
   }
 })
 
-export const { remover, editar, cadastrar } = tarefasSlice.actions
+export const { remover, editar, cadastrar, alteraStatus } = tarefasSlice.actions
 export default tarefasSlice.reducer

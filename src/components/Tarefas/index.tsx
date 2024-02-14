@@ -1,11 +1,13 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 
-import { BotaoSalvar } from '../../styles'
+import { BotaoSalvar, Botao, BotaoCancelar } from '../../styles'
 import * as S from './styles'
 
-import { editar, remover } from '../../store/reducers/Tarefas'
+import { alteraStatus, editar, remover } from '../../store/reducers/Tarefas'
 import TarefaClass from '../../models/Tarefa'
+
+import * as enums from '../../uteis/enums/Tarefa'
 type Props = TarefaClass
 
 const Tarefa = ({
@@ -29,11 +31,23 @@ const Tarefa = ({
     setDescricao(descricaoOriginal)
   }
 
+  function alteraStatusTarefa(e: ChangeEvent<HTMLInputElement>) {
+    dispatch(alteraStatus({ id, finalizando: e.target.checked }))
+  }
+
   return (
     <S.Card>
       <label htmlFor={titulo}>
-        <input type="checkbox" id={titulo} />
-        <S.Titulo>{titulo}</S.Titulo>
+        <input
+          type="checkbox"
+          checked={status === enums.Status.CONCLUIDO}
+          id={titulo}
+          onChange={alteraStatusTarefa}
+        />
+        <S.Titulo>
+          {estaEditando && <em>Editando: </em>}
+          {titulo}
+        </S.Titulo>
       </label>
       <S.Tag parametro="prioridade" prioridade={prioridade}>
         {prioridade}
@@ -65,16 +79,16 @@ const Tarefa = ({
             >
               Salvar
             </BotaoSalvar>
-            <S.BotaoCancelar onClick={() => cancelarEdicao()}>
+            <BotaoCancelar onClick={() => cancelarEdicao()}>
               Cancelar
-            </S.BotaoCancelar>
+            </BotaoCancelar>
           </>
         ) : (
           <>
-            <S.Botao onClick={() => setEstaEditando(true)}>Editar</S.Botao>
-            <S.BotaoCancelar onClick={() => dispatch(remover(id))}>
+            <Botao onClick={() => setEstaEditando(true)}>Editar</Botao>
+            <BotaoCancelar onClick={() => dispatch(remover(id))}>
               Remover
-            </S.BotaoCancelar>
+            </BotaoCancelar>
           </>
         )}
       </S.BarraAcoes>
